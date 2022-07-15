@@ -19,7 +19,11 @@ react-router: 6.3.0
 ```
 Bootstrap: 5.2
 ```
-
+## 🤍 Versión de React Big Calendar
+```
+```
+React Big Calendar: 1.4.2
+```
 ## 🔮 Futuro del Proyecto
 
 En proceso...
