@@ -1,27 +1,14 @@
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import enUS from "date-fns/locale/en-US";
-import { addHours, parse, startOfWeek, getDay, format } from "date-fns";
+import { addHours } from "date-fns";
 import { Navbar } from "../";
-
-// Configuracion del calendario, BIG CALENDAR
-const locales = {
-  "en-US": enUS,
-};
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
+import { localizer, getMessagesES } from "../../helpers";
 
 const events = [
   {
     title: "All Day Event",
     notes: "hay que comprar pan",
-    start: new Date(2020, 3, 0),
+    start: new Date(),
     end: addHours(new Date(), 2),
     bgColor: "#fafafa",
     user: {
@@ -32,15 +19,35 @@ const events = [
 ];
 
 export const CalendarPage = () => {
+  // se activa cuando hay un cambio en el calendario
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    console.log({ event, start, end, isSelected });
+    const style = {
+      backgroundColor: "#347cf7",
+      borderRadius: "0px",
+      opacity: 0.8,
+      color: "white",
+    };
+
+    return {
+      style,
+    };
+  };
+
   return (
     <>
+      {/* Navbar */}
       <Navbar />
+      {/* Aca esta el Calendario */}
       <Calendar
+        culture="es"
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
+        messages={getMessagesES()}
+        eventPropGetter={eventStyleGetter}
       />
     </>
   );
