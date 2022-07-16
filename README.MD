@@ -29,7 +29,6 @@ React-Modal: 3.15.1
 ```
 ## 🤍 Versión de React-Datepicker
 ```
-```
 React-Datepicker: 4.8.0
 ```
 
