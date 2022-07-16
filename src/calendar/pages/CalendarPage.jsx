@@ -3,8 +3,9 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { addHours } from "date-fns";
 import { Navbar, CalendarEvent } from "../";
 import { localizer, getMessagesES } from "../../helpers";
+import { useState } from "react";
 
-// Evento que se muestra en el calendario
+// Eventos con la data correspondiente de este
 const events = [
   {
     title: "Fiesta de cumpelanos",
@@ -20,8 +21,14 @@ const events = [
 ];
 
 export const CalendarPage = () => {
+  // Buscamos en el localStorage el ultimo lugar visitado
+  const [lastView, setLastView] = useState(
+    // Si no existe el ultimo lugar visitado,  agarramos por defecto que vaya al month
+    localStorage.getItem("lastView") || "month"
+  );
+
   // se activa cuando hay un cambio en el calendario
-  const eventStyleGetter = (event, start, end, isSelected) => {
+  const eventStyleGetter = () => {
     const style = {
       backgroundColor: "#347cf7",
       borderRadius: "0px",
@@ -34,6 +41,23 @@ export const CalendarPage = () => {
     };
   };
 
+  // se activa cuando se hace dobleclick en un evento
+  const onDoubleClick = (event) => {
+    console.log({ DoubleClick: event });
+  };
+  // Se activa cuando se hace click en un evento
+  const onSelect = (event) => {
+    console.log({ Click: event });
+  };
+
+  // Se dipara cuando se cambia el tipo de vista (mes,dia,semana,agenda)
+  const onViewChanged = (event) => {
+    // Se guarda en el localStorage el ultimo lugar visitado
+    // El evento es el que tiene los datos de donde estamos situados
+    localStorage.setItem("lastView", event);
+    setLastView(event);
+  };
+
   return (
     <>
       {/* Navbar */}
@@ -44,6 +68,8 @@ export const CalendarPage = () => {
         culture="es"
         localizer={localizer}
         events={events}
+        // Por defecto inicia en agenda
+        defaultView={lastView}
         startAccessor="start"
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
@@ -55,6 +81,12 @@ export const CalendarPage = () => {
         components={{
           event: CalendarEvent,
         }}
+        // Se activa cuando se hace doble click en un evento
+        onDoubleClickEvent={onDoubleClick}
+        // Se activa cuando se hace click en un evento
+        onSelectEvent={onSelect}
+        // Se activa cuando se cambia el tipo de vista (mes,dia,semana,agenda)
+        onView={onViewChanged}
       />
     </>
   );
