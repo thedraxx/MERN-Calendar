@@ -1,4 +1,4 @@
-import { addHours } from "date-fns";
+import { addHours, differenceInSeconds } from "date-fns";
 import React, { useState } from "react";
 import Modal from "react-modal";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -53,6 +53,23 @@ export const CalendarModal = () => {
     setIsOpen(false);
   };
 
+  // Se ejectua cuando se presiona el boton de guardar
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const difference = differenceInSeconds(formValues.end, formValues.start);
+
+    // Validacion si la fecha de fin e inicio es NaN o sila fecha de fin es menor que la de inicio
+    // O si la diferencia entre las fechas es menor a 0
+    if (isNaN(difference) || difference <= 0) {
+      return alert("La fecha no es valida");
+    }
+    // Si el titulo esta vacio
+    if (formValues.title.length <= 0) return;
+
+    // Si todo sale bien
+    console.log(formValues);
+  };
+
   return (
     // Modal que se superpone en la pantalla del calendario
     <Modal
@@ -66,7 +83,7 @@ export const CalendarModal = () => {
       {/* Contenido del modal */}
       <h1> Nuevo evento </h1>
       <hr />
-      <form className="container">
+      <form className="container" onSubmit={onSubmit}>
         <div className="form-group mb-2">
           <label>Fecha y hora inicio</label>
           <DatePicker
