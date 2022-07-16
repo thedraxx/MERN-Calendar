@@ -21,9 +21,18 @@ Bootstrap: 5.2
 ```
 ## 🤍 Versión de React Big Calendar
 ```
-```
 React Big Calendar: 1.4.2
 ```
+## 🤍 Versión de React-Modal
+```
+React-Modal: 3.15.1
+```
+## 🤍 Versión de React-Datepicker
+```
+```
+React-Datepicker: 4.8.0
+```
+
 ## 🔮 Futuro del Proyecto
 
 En proceso...
