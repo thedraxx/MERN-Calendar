@@ -1,9 +1,11 @@
 import { addHours, differenceInSeconds } from "date-fns";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Modal from "react-modal";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 registerLocale("es", es);
 // Modal Que se superpone en la pantalla del calendario
@@ -21,7 +23,10 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
+  // Estado del modal
   const [isOpen, setIsOpen] = useState(true);
+  // Cambia el estado true o false cuando se envia el formulario
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   // Formulario
   const [formValues, setFormValues] = useState({
@@ -30,6 +35,15 @@ export const CalendarModal = () => {
     start: new Date(),
     end: addHours(new Date(), 2),
   });
+
+  // Usamos useMemo para memorizar el valor, solo va a cambiar el valor cuando el titulo cambie o formSubmited cambia
+  const titleClass = useMemo(() => {
+    // Si formSubmitted no se dispara, entonces mandamos un campo vacio
+    if (!formSubmitted) return "";
+    // Si se disparo el formulario, entonces mandamos un campo con una clase
+    // Si el titulo es vacio, entonces mandamos un campo con una clase is invalid
+    return formValues.title.length > 0 ? "" : "is-invalid";
+  }, [formValues.title, formSubmitted]);
 
   // Manejo de los campos del formulario
   const onInputChange = ({ target }) => {
@@ -56,12 +70,16 @@ export const CalendarModal = () => {
   // Se ejectua cuando se presiona el boton de guardar
   const onSubmit = (event) => {
     event.preventDefault();
+    // Obtenemos la distancia entre las fechas de inicio y fin
     const difference = differenceInSeconds(formValues.end, formValues.start);
+    // Seteamos el formSubmitted a true
+    setFormSubmitted(true);
 
     // Validacion si la fecha de fin e inicio es NaN o sila fecha de fin es menor que la de inicio
     // O si la diferencia entre las fechas es menor a 0
     if (isNaN(difference) || difference <= 0) {
-      return alert("La fecha no es valida");
+      Swal.fire("Fechas incorrectas", "Revisar fechas ingresadas", "error");
+      return;
     }
     // Si el titulo esta vacio
     if (formValues.title.length <= 0) return;
@@ -116,7 +134,7 @@ export const CalendarModal = () => {
           <label>Titulo y notas</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${titleClass}`}
             placeholder="Título del evento"
             name="title"
             autoComplete="off"
