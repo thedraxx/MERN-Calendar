@@ -31,7 +31,14 @@ React-Modal: 3.15.1
 ```
 React-Datepicker: 4.8.0
 ```
-
+## 🤍 Versión de Redux-Toolkit
+```
+Redux-Toolkit: ^1.8.3
+```
+## 🤍 Versión de React-Redux
+```
+React-Redux: 8.0.2
+```
 ## 🔮 Futuro del Proyecto
 
 En proceso...
