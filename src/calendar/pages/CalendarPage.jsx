@@ -4,6 +4,7 @@ import { addHours } from "date-fns";
 import { Navbar, CalendarEvent, CalendarModal } from "../";
 import { localizer, getMessagesES } from "../../helpers";
 import { useState } from "react";
+import { useUiStore } from "../../hooks";
 
 // Eventos con la data correspondiente de este
 const events = [
@@ -21,6 +22,9 @@ const events = [
 ];
 
 export const CalendarPage = () => {
+  // Uso el custom hook para acceder al store de UI
+  const { openDateModal } = useUiStore();
+
   // Buscamos en el localStorage el ultimo lugar visitado
   const [lastView, setLastView] = useState(
     // Si no existe el ultimo lugar visitado,  agarramos por defecto que vaya al month
@@ -43,7 +47,9 @@ export const CalendarPage = () => {
 
   // se activa cuando se hace dobleclick en un evento
   const onDoubleClick = (event) => {
-    console.log({ DoubleClick: event });
+    // console.log({ DoubleClick: event });
+    // Cuando se hace dobleclick, se abre el modal
+    openDateModal();
   };
   // Se activa cuando se hace click en un evento
   const onSelect = (event) => {

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Slice de Redux para el manejo de la UI
 export const uiSlice = createSlice({
     name: 'ui',
     initialState: {

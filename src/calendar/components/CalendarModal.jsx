@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { useUiStore } from "../../hooks";
 
 registerLocale("es", es);
 // Modal Que se superpone en la pantalla del calendario
@@ -23,8 +24,9 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
-  // Estado del modal
-  const [isOpen, setIsOpen] = useState(true);
+  //* Uso del hook para acceder al store de UI
+  const { isDateModalOpen, closeDateModal } = useUiStore();
+
   // Cambia el estado true o false cuando se envia el formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -61,10 +63,11 @@ export const CalendarModal = () => {
     });
   };
 
-  // Ceirra el modal
+  //  Una vez dentro del modal, este se cierra al hacer un click fuera
   const onCloseModal = () => {
-    console.log("cerrando modal");
-    setIsOpen(false);
+    // console.log("cerrando modal");
+    // CloseDateModal viene del hook useUiStore
+    closeDateModal();
   };
 
   // Se ejectua cuando se presiona el boton de guardar
@@ -91,7 +94,9 @@ export const CalendarModal = () => {
   return (
     // Modal que se superpone en la pantalla del calendario
     <Modal
-      isOpen={isOpen}
+      // Si isDateModalOpen es true, entonces se muestra el modal
+      isOpen={isDateModalOpen}
+      // Cierra el modal cuando se hace click fuera del modal
       onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"
