@@ -4,26 +4,13 @@ import { addHours } from "date-fns";
 import { Navbar, CalendarEvent, CalendarModal } from "../";
 import { localizer, getMessagesES } from "../../helpers";
 import { useState } from "react";
-import { useUiStore } from "../../hooks";
-
-// Eventos con la data correspondiente de este
-const events = [
-  {
-    title: "Fiesta de cumpelanos",
-    notes: "hay que comprar pan",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: "#fafafa",
-    user: {
-      _id: "123",
-      name: "Fernando",
-    },
-  },
-];
+import { useCalendarStore, useUiStore } from "../../hooks";
 
 export const CalendarPage = () => {
   // Uso el custom hook para acceder al store de UI
   const { openDateModal } = useUiStore();
+  // use el custom hook para acceder al store de calendar
+  const { events } = useCalendarStore();
 
   // Buscamos en el localStorage el ultimo lugar visitado
   const [lastView, setLastView] = useState(
