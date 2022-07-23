@@ -10,7 +10,7 @@ export const CalendarPage = () => {
   // Uso el custom hook para acceder al store de UI
   const { openDateModal } = useUiStore();
   // use el custom hook para acceder al store de calendar
-  const { events } = useCalendarStore();
+  const { events, setActiveEvent } = useCalendarStore();
 
   // Buscamos en el localStorage el ultimo lugar visitado
   const [lastView, setLastView] = useState(
@@ -40,7 +40,9 @@ export const CalendarPage = () => {
   };
   // Se activa cuando se hace click en un evento
   const onSelect = (event) => {
-    console.log({ Click: event });
+    // console.log({ Click: event });
+    // Le enviamos el evento que estamos haciendo click al custom hook para acceder al store de calendar
+    setActiveEvent(event);
   };
 
   // Se dipara cuando se cambia el tipo de vista (mes,dia,semana,agenda)

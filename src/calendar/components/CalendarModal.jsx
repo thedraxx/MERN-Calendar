@@ -1,12 +1,12 @@
 import { addHours, differenceInSeconds } from "date-fns";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Modal from "react-modal";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-import { useUiStore } from "../../hooks";
+import { useCalendarStore, useUiStore } from "../../hooks";
 
 registerLocale("es", es);
 // Modal Que se superpone en la pantalla del calendario
@@ -30,10 +30,13 @@ export const CalendarModal = () => {
   // Cambia el estado true o false cuando se envia el formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  // Usamos el custom hook para acceder al ActiveEvent
+  const { activeEvent } = useCalendarStore();
+
   // Formulario
   const [formValues, setFormValues] = useState({
-    title: "FERNANDO",
-    notes: "gerrando",
+    title: "",
+    notes: "",
     start: new Date(),
     end: addHours(new Date(), 2),
   });
@@ -46,6 +49,12 @@ export const CalendarModal = () => {
     // Si el titulo es vacio, entonces mandamos un campo con una clase is invalid
     return formValues.title.length > 0 ? "" : "is-invalid";
   }, [formValues.title, formSubmitted]);
+
+  // Usamos UsseEffect para que este checkeando si hay algun cambio en el activeEvent
+  useEffect(() => {
+    // Cuando activeEvent no es nulo ejectuamos que cargue los campos del formulario, rellenandolo con lo que sea que tenga actieEvent
+    if (activeEvent !== null) setFormValues({ ...activeEvent });
+  }, [activeEvent]);
 
   // Manejo de los campos del formulario
   const onInputChange = ({ target }) => {
