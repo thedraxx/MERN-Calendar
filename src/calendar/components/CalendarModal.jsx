@@ -30,8 +30,8 @@ export const CalendarModal = () => {
   // Cambia el estado true o false cuando se envia el formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Usamos el custom hook para acceder al ActiveEvent
-  const { activeEvent } = useCalendarStore();
+  // Usamos el custom hook para acceder al ActiveEvent y startSavingEvent
+  const { activeEvent, startSavingEvent } = useCalendarStore();
 
   // Formulario
   const [formValues, setFormValues] = useState({
@@ -80,7 +80,7 @@ export const CalendarModal = () => {
   };
 
   // Se ejectua cuando se presiona el boton de guardar
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     // Obtenemos la distancia entre las fechas de inicio y fin
     const difference = differenceInSeconds(formValues.end, formValues.start);
@@ -93,11 +93,13 @@ export const CalendarModal = () => {
       Swal.fire("Fechas incorrectas", "Revisar fechas ingresadas", "error");
       return;
     }
-    // Si el titulo esta vacio
+    // Si el titulo esta vacio retornamos un error
     if (formValues.title.length <= 0) return;
 
-    // Si todo sale bien
-    console.log(formValues);
+    // Si todo sale bien, iniciamos el proceso de guardado de la nota
+    await startSavingEvent(formValues);
+    // Cerrar el modal
+    closeDateModal();
   };
 
   return (

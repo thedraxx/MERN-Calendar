@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { onSetActiveEvent } from '../store';
+import { onAddNewEvent, onSetActiveEvent } from '../store';
 
 
 export const useCalendarStore = () => {
@@ -16,6 +16,21 @@ export const useCalendarStore = () => {
         dispatch(onSetActiveEvent(calendarEvent));
     }
 
+    // Funcion que inicia el proceso de grabacion
+    const startSavingEvent = async (calendarEvent) => {
+        //TODO llegar al backen
+
+        // TODO: todo sale BIEN
+        if (calendarEvent._id) {
+            // Estoy actualizando
+
+        } else {
+            // Estoy creando
+            // Agarramos el evento y le agregamos el ID
+            dispatch(onAddNewEvent({ ...calendarEvent, _id: new Date().getTime() }));
+        }
+    }
+
     // Retornamos el state de calendar
     return {
         // * Propiedades
@@ -24,5 +39,6 @@ export const useCalendarStore = () => {
 
         // * Metodos
         setActiveEvent,
+        startSavingEvent,
     }
 }
