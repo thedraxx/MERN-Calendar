@@ -100,6 +100,7 @@ export const CalendarModal = () => {
     await startSavingEvent(formValues);
     // Cerrar el modal
     closeDateModal();
+    setFormSubmitted(false);
   };
 
   return (
