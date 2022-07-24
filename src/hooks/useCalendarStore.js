@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { onAddNewEvent, onSetActiveEvent, onUpdateEvent } from '../store';
+import { onAddNewEvent, onSetActiveEvent, onUpdateEvent, onDeleteEvent } from '../store';
 
 
 export const useCalendarStore = () => {
@@ -30,15 +30,21 @@ export const useCalendarStore = () => {
             dispatch(onAddNewEvent({ ...calendarEvent, _id: new Date().getTime() }));
         }
     }
+    // Funcion que inicia el proceso de eliminacion de nota
+    const startDeletingEvent = () => {
+        dispatch(onDeleteEvent());
+    }
 
     // Retornamos el state de calendar
     return {
         // * Propiedades
         events,
         activeEvent,
+        hasEventSelected: !!activeEvent,
 
         // * Metodos
         setActiveEvent,
         startSavingEvent,
+        startDeletingEvent,
     }
 }

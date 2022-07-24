@@ -41,13 +41,27 @@
 
 .fab {
     -moz-border-radius: 100%;
- -ms-border-radius: 100%;
- -o-border-radius: 100%;
- -webkit-border-radius: 100%;
- border-radius: 100%;
- bottom: 25px;
- font-size: 30px;
- padding: 25px;
- position: fixed;
- right: 25px;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    bottom: 25px;
+    font-size: 30px;
+    padding: 25px;
+    position: fixed;
+    right: 25px;
+}
+
+.fab-danger {
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    bottom: 25px;
+    font-size: 23px;
+    position: fixed;
+    left: 25px;
+    width: 70px;
+    height: 70px;
 }

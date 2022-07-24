@@ -37,6 +37,7 @@ export const calendarSlice = createSlice({
         },
         // Actulizamos la nota activa
         onUpdateEvent: (state, { payload }) => {
+            // Toamos los eventos que estan el el initialState y los guardamos en una variable
             state.events = state.events.map(event => {
                 // Si el evento es el mismo que el activo
                 if (event._id === payload._id) {
@@ -44,10 +45,21 @@ export const calendarSlice = createSlice({
                 }
                 return event
             })
-        }
+        },
+
+        // Eliminamos un evento del calendario
+        onDeleteEvent: (state) => {
+            // sI TENEMOS UNA NOTA ACTIVE HACE ESTO
+            if (state.activeEvent) {
+                // Regresamos todos los eventos cuyo id sea diferente al de la nota active
+                state.events = state.events.filter(event => event._id !== state.activeEvent._id);
+                state.act9iveEvent = null;
+            }
+            // SINO HAY UNA NOTA ACTIVE NO HACE NADA
+        },
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent } = calendarSlice.actions;
+export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent } = calendarSlice.actions;
